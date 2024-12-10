@@ -1,0 +1,99 @@
+# Assume our hero Avery Lee wants to fly to see their
+# grandparents who live in LA (near LAX), but money is tight,
+# so they're seeing if they can fly as a courier
+# carrying things and so travel for free (coach class).
+# In the following table, some of the flights are marked as $0: these
+# are the ones where Avery would travel as a courier.
+# How can Avery get most cheaply to LAX ?
+#
+# (In real life, it's more complicated than this).
+MKE
+  ORD 100
+  DTW 150
+  MSP 139
+  DFW 250
+  LAX 350
+  
+DTW
+  BWI 0
+  BOS 88
+  ORD 120
+  DEN 180
+  
+ORD
+  BNA 0
+  DEN 110
+  BWI 150
+  LAS 213
+  MCI 99
+  MKE 60
+  DTW 90
+  DFW 200
+  JFK 176
+  LGA 217
+  
+BWI
+  DTW 217
+  BOS 180
+  LGA 50
+  JFK 88
+  DEN 200
+  ATL 134
+  BNA 110
+  
+BNA
+  ORD 88
+  ATL 0
+  DTW 107
+  DFW 129
+  BWI 140
+  
+DEN
+  LAS 140
+  LAX 228
+  ORD 140
+  ATL 170
+  BNA 186
+  BWI 240
+  
+ATL
+  DEN 140
+  LAS 0
+  ORD 175
+  BWI 99
+  JFK 210
+  LAX 310
+  
+LAS
+  LAX 45
+  DEN 130
+  DFW 119
+  
+DFW
+  MSP 0
+  ORD 150
+  LAS 120
+  BWI 183
+  JFK 290
+  LAX 190
+  
+MSP
+  MKE 88
+  DTW 130
+  ORD 115
+  DEN 210
+  LAX 300
+  MCI 140
+  
+MCI
+  ORD 77
+  DFW 0
+  MSP 139
+  DEN 93
+  
+LAX
+  DEN 0
+  LAS 65
+  ORD 310
+  DFW 170 
+

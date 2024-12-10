@@ -1,0 +1,160 @@
+package edu.uwm.cs351;
+
+import java.util.AbstractQueue;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Consumer;
+
+import edu.uwm.cs351.util.WeightedPath;
+
+/**
+ * A priority queue of weighted paths in a graph,
+ * where the minimum weight path is the first to come out.
+ */
+public class PathHeapQueue<V> extends AbstractQueue<WeightedPath<V>> {
+	private final List<WeightedPath<V>> heap = new ArrayList<>(); // The only field!
+
+	/**
+	 * Return the parent index of this index, or -1 if there is no parent
+	 * @param x index in the heap
+	 * @return index of parent in heap
+	 */
+	private static int parent(int x) {
+		return 0; // TODO: one line, no if's or loops
+	}
+
+	/**
+	 * Return the index of the first (left) child of this node in the heap.
+	 * The second (right) child index will be one greater.
+	 * @param x index of node
+	 * @return index of left child.
+	 */
+	private static int child(int x) {
+		return 0; // TODO: one line, no if's or loops
+	}
+
+	
+	/// Invariant checks:
+	
+	private static Consumer<String> reporter = (s) -> System.out.println("Invariant error: "+ s);
+	
+	/**
+	 * Used to report an error found when checking the invariant.
+	 * By providing a string, this will help debugging the class if the invariant should fail.
+	 * @param error string to print to report the exact error found
+	 * @return false always
+	 */
+	private boolean report(String error) {
+		reporter.accept(error);
+		return false;
+	}
+	
+	private boolean wellFormed() {
+		// (1) The heap cannot contain any nulls
+		// (2) Every path in the heap must have weight no less than
+		//     the weight of the path as its parent (if any)
+		return true;
+	}
+	
+	private PathHeapQueue(boolean ignored) {} // do not change this construct -- used by Spy
+	
+	public PathHeapQueue() {
+		//nothing to do
+		assert wellFormed() : "invariant failed at end of constructor";
+	}
+	
+	@Override
+	public int size() {
+		assert wellFormed() : "invariant failed in size()";
+		return -1; // TODO (very easy) 
+	}
+
+	@Override
+	public boolean offer(WeightedPath<V> e) {
+		assert wellFormed() : "invariant failed in offer()";
+		// TODO
+		assert wellFormed() : "invariant broken by offer()";
+		return true;
+	}
+
+	@Override
+	public WeightedPath<V> poll() {
+		assert wellFormed() : "invariant failed in poll()";
+		// TODO
+		assert wellFormed() : "invariant broken by poll()";
+		return null; // TODO
+	}
+
+	@Override
+	public WeightedPath<V> peek() {
+		assert wellFormed() : "invariant failed in peek()";
+		return null; // TODO (no changes, so no assertion at end)
+	}
+
+	@Override
+	public Iterator<WeightedPath<V>> iterator() {
+		return Collections.unmodifiableCollection(heap).iterator();
+	}
+	
+	// TODO: Our solution has helper methods for sifting up and down
+
+	public static class Spy {
+		/**
+		 * Return the sink for invariant error messages
+		 * @return current reporter
+		 */
+		public Consumer<String> getReporter() {
+			return reporter;
+		}
+
+		/**
+		 * Change the sink for invariant error messages.
+		 * @param r where to send invariant error messages.
+		 */
+		public void setReporter(Consumer<String> r) {
+			reporter = r;
+		}
+		
+		/**
+		 * What does the ADT think is the parent of this index?
+		 * @param i index to check
+		 * @return parent index
+		 */
+		public int parent(int i) {
+			return PathHeapQueue.parent(i);
+		}
+
+		/**
+		 * What does the ADT think is the first (left) child of this index?
+		 * @param i index to check
+		 * @return first child index
+		 */
+		public int child(int i) {
+			return PathHeapQueue.child(i);
+		}
+
+		/**
+		 * Create a path heap queue with a copy of the contents provided
+		 * @param E element type
+		 * @param l contents to use
+		 * @return new debugging instead of path heap queue
+		 */
+		public <E> PathHeapQueue<E> newInstance(List<WeightedPath<E>> l) {
+			PathHeapQueue<E> result = new PathHeapQueue<>(false);
+			result.heap.addAll(l);
+			return result;
+		}
+
+		/**
+		 * Return whether debugging instance meets the 
+		 * requirements on the invariant.
+		 * @param d instance of to use, must not be null
+		 * @return whether it passes the check
+		 */
+		public boolean wellFormed(PathHeapQueue<?> d) {
+			return d.wellFormed();
+		}
+	}
+}
