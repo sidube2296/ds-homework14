@@ -74,29 +74,39 @@ public class PathHeapQueue<V> extends AbstractQueue<WeightedPath<V>> {
 	@Override
 	public int size() {
 		assert wellFormed() : "invariant failed in size()";
-		return -1; // TODO (very easy) 
+		return heap.size(); // TODO (very easy) 
 	}
 
 	@Override
 	public boolean offer(WeightedPath<V> e) {
-		assert wellFormed() : "invariant failed in offer()";
+		assert wellFormed() : "invariant failed at start of offer()";
 		// TODO
-		assert wellFormed() : "invariant broken by offer()";
+		if (e == null) throw new NullPointerException("Weighted path is null");
+	    heap.add(e);
+	    shiftUp(heap.size() - 1);
+		assert wellFormed() : "invariant failed at end of offer()";
 		return true;
 	}
 
 	@Override
 	public WeightedPath<V> poll() {
-		assert wellFormed() : "invariant failed in poll()";
+		assert wellFormed() : "invariant failed at start of poll()";
 		// TODO
-		assert wellFormed() : "invariant broken by poll()";
-		return null; // TODO
+		if (heap.isEmpty()) return null;
+		WeightedPath<V> m = heap.get(0);
+		WeightedPath<V> l = heap.remove(heap.size() - 1);
+		if (!heap.isEmpty()) {
+			heap.set(0, l); 
+			shiftDown(0);
+		}
+		assert wellFormed() : "invariant failed at end of poll()";
+		return m; // TODO
 	}
 
 	@Override
 	public WeightedPath<V> peek() {
 		assert wellFormed() : "invariant failed in peek()";
-		return null; // TODO (no changes, so no assertion at end)
+		return heap.isEmpty() ? null : heap.get(0); // TODO (no changes, so no assertion at end)
 	}
 
 	@Override
@@ -105,6 +115,25 @@ public class PathHeapQueue<V> extends AbstractQueue<WeightedPath<V>> {
 	}
 	
 	// TODO: Our solution has helper methods for sifting up and down
+	
+	private void shiftUp(int i) {
+	    while (i > 0) {
+	        if (WeightedPath.weight(heap.get(i)) >= WeightedPath.weight(heap.get(parent(i)))) break; 
+	        Collections.swap(heap, i, parent(i));
+	        i = parent(i);
+	    }
+	}
+	
+	private void shiftDown(int i) {
+	    while (true) {
+	        int s = i;
+	        if (child(i) < heap.size() && WeightedPath.weight(heap.get(child(i))) < WeightedPath.weight(heap.get(s))) s = child(i);	        
+	        if (child(i)+ 1  < heap.size() && WeightedPath.weight(heap.get(child(i) + 1)) < WeightedPath.weight(heap.get(s))) s = child(i) + 1;
+	        if (s == i) break;
+	        Collections.swap(heap, i, s);
+	        i = s;
+	    }
+	}
 
 	public static class Spy {
 		/**
