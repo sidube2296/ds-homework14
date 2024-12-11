@@ -22,7 +22,7 @@ public class PathHeapQueue<V> extends AbstractQueue<WeightedPath<V>> {
 	 * @return index of parent in heap
 	 */
 	private static int parent(int x) {
-		return 0; // TODO: one line, no if's or loops
+		return (x <= 0) ? -1 : (x - 1) / 2; // TODO: one line, no if's or loops
 	}
 
 	/**
@@ -32,11 +32,12 @@ public class PathHeapQueue<V> extends AbstractQueue<WeightedPath<V>> {
 	 * @return index of left child.
 	 */
 	private static int child(int x) {
-		return 0; // TODO: one line, no if's or loops
+		return 2 * x + 1; // TODO: one line, no if's or loops
 	}
 
 	
 	/// Invariant checks:
+	
 	
 	private static Consumer<String> reporter = (s) -> System.out.println("Invariant error: "+ s);
 	
@@ -53,9 +54,14 @@ public class PathHeapQueue<V> extends AbstractQueue<WeightedPath<V>> {
 	
 	private boolean wellFormed() {
 		// (1) The heap cannot contain any nulls
+	    for (WeightedPath<V> p : heap) if (p == null) return report("Null elements in Heap");
 		// (2) Every path in the heap must have weight no less than
 		//     the weight of the path as its parent (if any)
-		return true;
+	    for (int i = 0; i < heap.size(); i++) {
+	        if (child(i) < heap.size() && WeightedPath.weight(heap.get(i)) > WeightedPath.weight(heap.get(child(i)))) return report("Heap property violated at left child.");
+	        if ((child(i) + 1) < heap.size() && WeightedPath.weight(heap.get(i)) > WeightedPath.weight(heap.get(child(i) + 1))) return report("Heap property violated at right child.");
+	    }
+	    return true;
 	}
 	
 	private PathHeapQueue(boolean ignored) {} // do not change this construct -- used by Spy
